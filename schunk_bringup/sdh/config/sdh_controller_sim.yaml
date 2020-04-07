@@ -1,0 +1,36 @@
+joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+joint_trajectory_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - sdh_knuckle_joint
+    - sdh_thumb_2_joint
+    - sdh_thumb_3_joint
+    - sdh_finger_12_joint
+    - sdh_finger_13_joint
+    - sdh_finger_22_joint
+    - sdh_finger_23_joint
+  constraints:
+      goal_time: 0.6
+      stopped_velocity_tolerance: 0.005
+      sdh_knuckle_joint: {trajectory: 0.5, goal: 0.5}
+      sdh_thumb_2_joint: {trajectory: 0.5, goal: 0.5}
+      sdh_thumb_3_joint: {trajectory: 0.5, goal: 0.5}
+      sdh_finger_12_joint: {trajectory: 0.5, goal: 0.5}
+      sdh_finger_13_joint: {trajectory: 0.5, goal: 0.5}
+      sdh_finger_22_joint: {trajectory: 0.5, goal: 0.5}
+      sdh_finger_23_joint: {trajectory: 0.5, goal: 0.5}
+  pid_gains:
+      sdh_knuckle_joint: {p: 100.0, i: 0.01, d: 10.0}
+      sdh_thumb_2_joint: {p: 100.0, i: 0.01, d: 10.0}
+      sdh_thumb_3_joint: {p: 100.0, i: 0.01, d: 10.0}
+      sdh_finger_12_joint: {p: 100.0, i: 0.01, d: 10.0}
+      sdh_finger_13_joint: {p: 100.0, i: 0.01, d: 10.0}
+      sdh_finger_22_joint: {p: 100.0, i: 0.01, d: 10.0}
+      sdh_finger_23_joint: {p: 100.0, i: 0.01, d: 10.0}
+  stop_trajectory_duration: 0.5
+  state_publish_rate:  25
+  action_monitor_rate: 10
+  required_drive_mode: 7

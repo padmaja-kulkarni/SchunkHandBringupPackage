@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<launch>
+
+    
+    <!-- launch an empty world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch" />
+
+    <!-- upload robot_description -->
+	<param name="robot_description" command="$(find xacro)/xacro.py '$(find schunk_bringup)/sdh/urdf/robot.urdf.xacro'" />
+
+    <!-- push robot_description to factory and spawn robot in gazebo -->
+    <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model sdh -z 0.5 " respawn="false" output="screen" />
+
+    <node ns="sdh" pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+	<param name="publish_frequency" type="double" value="50.0"/>
+	<param name="tf_prefix" type="string" value=""/>
+	</node>
+    
+    
+    
+    <!-- controller manager -->
+	<include file="$(find pr2_controller_manager)/controller_manager.launch" />
+
+	<!-- Fake Calibration -->
+	<node pkg="rostopic" type="rostopic" name="fake_joint_calibration"
+        args="pub /calibrated std_msgs/Bool true" />
+        
+        
+
+    
+    
+    
+    <!-- sdh controllers -->
+    <rosparam file="$(find schunk_bringup)/sdh/config/sdh_controller.yaml" command="load" />
+
+    <node name="sdh_controller_spawner" pkg="controller_manager" type="spawner" args="sdh_controller" />
+
+    <!--group ns="sdh_controller">
+                <node name="sdh_joint_trajectory_action_node" pkg="joint_trajectory_action" type="joint_trajectory_action" />
+    </group-->
+
+    <!-- sdh simulated tactile sensors -->
+    <include file="$(find schunk_simulated_tactile_sensors)/ros/launch/simulated_tactile_sensors.launch" />
+
+	
+	<!-- upload script server parameters -->
+    <rosparam command="load" ns="/script_server/sdh" file="$(find schunk_bringup)/sdh/config/sdh_joint_configurations.yaml"/>
+
+
+</launch>
