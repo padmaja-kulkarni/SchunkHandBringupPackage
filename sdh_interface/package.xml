@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>sdh_interface</name>
+  <version>0.0.0</version>
+  <description>Package to command SDH hand.</description>
+
+  
+  <maintainer email="padmajak@todo.todo">padmajak</maintainer>
+
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>python</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <export>
+   
+
+  </export>
+</package>
